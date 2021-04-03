@@ -1,0 +1,24 @@
+suites:
+  api:
+    actor: ApiTester
+    path: .
+    modules:
+      enabled:
+        - REST:
+            url: http://symbol-dot.local
+            depends: PhpBrowser
+        - PhpBrowser:
+            url: http://symbol-dot.local
+            headers:
+              Accept: application/json
+              Content-Type: application/json
+
+paths:
+  tests: tests
+  output: tests/_output
+  data: tests/_data
+  support: tests/_support
+
+settings:
+  shuffle: false
+  lint: true
