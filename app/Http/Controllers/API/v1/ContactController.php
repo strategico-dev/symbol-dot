@@ -46,6 +46,8 @@ class ContactController extends Controller
     #Route::delete('/api/v1/orders/{contact}')
     public function delete(Contact $contact)
     {
+        $this->authorize('delete', $contact);
+
         $contact->delete();
         return $contact;
     }
