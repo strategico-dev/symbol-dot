@@ -30,12 +30,6 @@ Route::group(['prefix' => 'contacts', 'middleware' => ['auth']], function () {
     Route::get('{contactId}', 'ContactController@show');
     Route::put('{contact}', 'ContactController@update');
     Route::delete('{contact}', 'ContactController@delete');
-
-    Route::group(['prefix' => '{contact}/permissions', 'middleware' => ['can:changePermission,contact']], function () {
-        Route::get('', 'ContactPermission@index');
-        Route::post('', 'ContactPermission@store');
-        Route::delete('', 'ContactPermission@delete');
-    });
 });
 
 Route::group(['prefix' => 'companies', 'middleware' => ['auth']], function () {
