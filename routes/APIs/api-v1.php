@@ -13,4 +13,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login');
+    Route::get('me', 'AuthController@me')->middleware('auth');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('logout', 'AuthController@logout')->middleware('auth');
+});
 
+Route::group(['prefix' => 'users'], function () {
+    Route::post('', 'UserController@store');
+});
+
+Route::group(['prefix' => 'contacts', 'middleware' => ['auth']], function () {
+    Route::get('', 'ContactController@index');
+    Route::post('', 'ContactController@store');
+    Route::get('{contactId}', 'ContactController@show');
+    Route::put('{contact}', 'ContactController@update');
+    Route::delete('{contact}', 'ContactController@delete');
+
+    Route::group(['prefix' => '{contact}/permissions', 'middleware' => ['can:changePermission,contact']], function () {
+        Route::get('', 'ContactPermission@index');
+        Route::post('', 'ContactPermission@store');
+        Route::delete('', 'ContactPermission@delete');
+    });
+});
+
+Route::group(['prefix' => 'companies', 'middleware' => ['auth']], function () {
+    Route::get('', 'CompanyController@index');
+    Route::post('', 'CompanyController@store');
+    Route::get('{companyId}', 'CompanyController@show');
+});
+
+Route::group(['prefix' => 'contact-permissions', 'middleware' => ['auth']], function () {
+    Route::get('', 'ContactPermission@modes');
+});
