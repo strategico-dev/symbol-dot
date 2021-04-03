@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property int $id
+ */
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasFactory, Notifiable;
@@ -29,8 +33,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password'
     ];
 
     /**
@@ -41,6 +44,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -60,5 +73,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public static function create(array $attributes)
+    {
+        $attributes['password'] = Hash::make($attributes['password']);
+        return (new static)->newQuery()->create($attributes);
     }
 }
