@@ -36,6 +36,8 @@ Route::group(['prefix' => 'companies', 'middleware' => ['auth']], function () {
     Route::get('', 'CompanyController@index');
     Route::post('', 'CompanyController@store');
     Route::get('{companyId}', 'CompanyController@show');
+    Route::put('{company}', 'CompanyController@update');
+    Route::delete('{company}', 'CompanyController@delete');
 });
 
 Route::group(['prefix' => 'contact-permissions', 'middleware' => ['auth']], function () {
