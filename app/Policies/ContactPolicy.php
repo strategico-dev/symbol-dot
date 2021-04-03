@@ -43,6 +43,16 @@ class ContactPolicy
      * @param Contact $contact
      * @return bool
      */
+    public function delete(User $user, Contact $contact)
+    {
+        return $user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact);
+    }
+
+    /**
+     * @param User $user
+     * @param Contact $contact
+     * @return bool
+     */
     public function changePermission(User $user, Contact $contact)
     {
         return $user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact);
