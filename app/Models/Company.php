@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $user_id
+ * @property mixed $companyDetail
  */
 class Company extends Model
 {
@@ -32,8 +33,7 @@ class Company extends Model
 
             if($detailAttributes)
             {
-                $companyDetail = new CompanyDetail($detailAttributes);
-                $companyDetail->save();
+                $companyDetail = CompanyDetail::create($detailAttributes);
 
                 $createdCompany->companyDetail()->associate($companyDetail);
                 $createdCompany->save();
