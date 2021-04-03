@@ -5,8 +5,6 @@ namespace App\Http\Controllers\API\v1;
 use App\Models\User;
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use App\Mail\CreatedContact;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateContactRequest;
 use App\Http\Requests\UpdateContactRequest;
