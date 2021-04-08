@@ -17,7 +17,7 @@ class CompanyController extends Controller
     {
         /* @var User $user */
         $user = User::find(auth()->id());
-        return $user->companies()->with(['companyDetail'])->fetch();
+        return $user->companies()->with(['companyDetail', 'employees.contact'])->fetch();
     }
 
     #Route::post('/api/v1/companies')
@@ -32,7 +32,7 @@ class CompanyController extends Controller
     #Route::get('/api/v1/companies/{companyId}')
     public function show($companyId)
     {
-        $company = Company::with(['companyDetail'])->findOrFail($companyId);
+        $company = Company::with(['companyDetail', 'employees.contact'])->findOrFail($companyId);
         $this->authorize('show', $company);
 
         return $company;
