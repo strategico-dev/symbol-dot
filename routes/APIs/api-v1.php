@@ -38,8 +38,34 @@ Route::group(['prefix' => 'companies', 'middleware' => ['auth']], function () {
     Route::get('{companyId}', 'CompanyController@show');
     Route::put('{company}', 'CompanyController@update');
     Route::delete('{company}', 'CompanyController@delete');
+
+    Route::group(['prefix' => '{company}/employees'], function () {
+        Route::get('', 'EmployeeController@index');
+        Route::post('', 'EmployeeController@store');
+        Route::delete('{employee}', 'EmployeeController@delete');
+    });
 });
 
 Route::group(['prefix' => 'contact-permissions', 'middleware' => ['auth']], function () {
     Route::get('', 'ContactPermission@modes');
+});
+
+Route::group(['prefix' => 'sales-funnels'], function () {
+    Route::get('', 'SalesFunnelController@index');
+    Route::post('', 'SalesFunnelController@store');
+    Route::get('{salesFunnelId}', 'SalesFunnelController@show');
+    Route::delete('{salesFunnel}', 'SalesFunnelController@delete');
+
+    Route::group(['prefix' => '{salesFunnel}/sales-stages'], function () {
+        Route::get('', 'SalesStageController@index');
+        Route::post('', 'SalesStageController@store');
+        Route::put('swapper', 'SalesStageController@swap');
+        Route::delete('{salesStage}', 'SalesStageController@delete');
+    });
+
+    Route::group(['prefix' => '{salesFunnel}/contacts/{contact}', 'middleware' => ['can:update,salesFunnel', 'can:update,contact']], function () {
+        Route::post('', 'ContactFunnelController@add');
+        Route::put('', 'ContactFunnelController@move');
+        Route::delete('', 'ContactFunnelController@delete');
+    });
 });
