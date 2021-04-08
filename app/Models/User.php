@@ -55,6 +55,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(Company::class);
     }
 
+    public function salesFunnels()
+    {
+        return $this->hasMany(SalesFunnel::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
