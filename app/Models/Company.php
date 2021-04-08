@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int $id
  * @property int $user_id
  * @property mixed $companyDetail
  */
@@ -23,6 +24,11 @@ class Company extends Model
     public function companyDetail()
     {
         return $this->belongsTo(CompanyDetail::class);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
     }
 
     public static function create($companyAttributes, $detailAttributes = null)
