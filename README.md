@@ -86,13 +86,13 @@ PUT /api/v1/sales-funnels/{sales-funnel}/sales-stages/swapper
 ```
 DELETE /api/v1/sales-funnels/{sales-funnel}/sales-stages/{sales-stage}
 ```
-### Contact in sales funnel
+### Contacts in sales funnel
 ```
-POST /api/v1/sales-funnels/{sales-funnel}/sales-stages/contacts/{contact}
-```
-```
-PUT /api/v1/sales-funnels/{sales-funnel}/sales-stages/contacts/{contact}/mover
+POST /api/v1/sales-funnels/{sales-funnel}/contacts/{contact}
 ```
 ```
-DELETE /api/v1/sales-funnels/{sales-funnel}/sales-stages/contacts/{contact}
+PUT /api/v1/sales-funnels/{sales-funnel}/contacts/{contact}/mover
+```
+```
+DELETE /api/v1/sales-funnels/{sales-funnel}/contacts/{contact}
 ```
