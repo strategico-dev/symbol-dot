@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\ElasticSearchable;
 use App\Observers\ContactObserver;
+use App\Observers\ElasticObserver;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Contact extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ElasticSearchable;
 
     const LIMIT = 10;
 
@@ -24,6 +26,11 @@ class Contact extends Model
         'description'
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
+
     public function contactPermissions()
     {
         return $this->hasMany(ContactPermission::class);
@@ -33,5 +40,6 @@ class Contact extends Model
     {
         parent::boot();
         self::observe(ContactObserver::class);
+        self::observe(ElasticObserver::class);
     }
 }

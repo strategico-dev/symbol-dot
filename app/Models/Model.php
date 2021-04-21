@@ -24,6 +24,11 @@ class Model extends BaseModel
      */
     protected $orderType = 'DESC';
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
+
     /**
      * @param $query
      * @param $limit

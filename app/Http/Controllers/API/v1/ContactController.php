@@ -22,6 +22,7 @@ class ContactController extends Controller
     public function store(CreateContactRequest $request)
     {
         $user = User::find(auth()->id());
+
         return $user->contacts()->save(new Contact($request->input()));
     }
 

@@ -69,3 +69,7 @@ Route::group(['prefix' => 'sales-funnels'], function () {
         Route::delete('', 'ContactFunnelController@delete');
     });
 });
+
+Route::group(['prefix' => 'searcher'], function () {
+    Route::get('contacts', 'SearchController@contacts');
+});
