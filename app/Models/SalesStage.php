@@ -36,8 +36,10 @@ class SalesStage extends Model
         $place->order = $target->order;
         $target->order = $placeOrder;
 
-        $place->save();
-        $target->save();
+        DB::transaction(function () use ($place, $target) {
+            $place->save();
+            $target->save();
+        });
     }
 
     #TODO: Refactoring
@@ -58,6 +60,13 @@ class SalesStage extends Model
         }
     }
 
+    /**
+     * Move a contact to a new sales stage
+     *
+     * @param SalesStage $current
+     * @param SalesStage $target
+     * @param Contact $contact
+     */
     public static function moveTo(SalesStage $current, SalesStage $target, Contact $contact)
     {
         DB::transaction(function () use ($current, $target, $contact) {

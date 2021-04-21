@@ -42,9 +42,12 @@ class SalesStageController extends Controller
      * @param SalesFunnel $salesFunnel
      * @param Request $request
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function swap(SalesFunnel $salesFunnel, Request $request)
     {
+        $this->authorize('update', $salesFunnel);
+
         $swappable = $request->input('swappable');
         SalesStage::swapOrders($salesFunnel, $swappable);
 
@@ -56,6 +59,8 @@ class SalesStageController extends Controller
     #Route::post('/api/v1/sales-funnels/{sales-funnel}/sales-stages/{salesStage}')
     public function delete(SalesFunnel $salesFunnel, SalesStage $salesStage)
     {
+        $this->authorize('delete', $salesFunnel);
+
         if($salesFunnel->id !== $salesStage->sales_funnel_id)
         {
             return response()->json([
