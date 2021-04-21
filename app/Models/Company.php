@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\ElasticSearchable;
+use App\Observers\ElasticObserver;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Company extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ElasticSearchable;
 
     protected $fillable = [
         'name',
@@ -47,5 +49,12 @@ class Company extends Model
 
             return $createdCompany;
         });
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::observe(ElasticObserver::class);
     }
 }
