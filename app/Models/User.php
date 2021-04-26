@@ -79,14 +79,4 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return [];
     }
-
-    /**
-     * @param array $attributes
-     * @return mixed
-     */
-    public static function create(array $attributes)
-    {
-        $attributes['password'] = Hash::make($attributes['password']);
-        return (new static)->newQuery()->create($attributes);
-    }
 }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\ElasticSearchable;
 use App\Observers\ElasticObserver;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**

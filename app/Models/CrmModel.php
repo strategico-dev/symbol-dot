@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method void fetch()
  */
-class CrmModel extends BaseModel
+class CrmModel extends Model
 {
     /**
      * @var int
      */
-    protected $fetchLimit = 10;
+    protected int $fetchLimit = 10;
 
     /**
      * @var string
      */
-    protected $orderBy = 'id';
+    protected string $orderBy = 'id';
 
     /**
      * @var string
      */
-    protected $orderType = 'DESC';
+    protected string $orderType = 'DESC';
 
     public function __construct(array $attributes = [])
     {

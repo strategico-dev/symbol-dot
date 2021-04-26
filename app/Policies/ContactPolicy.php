@@ -15,12 +15,7 @@ class ContactPolicy
      */
     public function show(User $user, Contact $contact)
     {
-        if($user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact))
-        {
-            return true;
-        }
-
-        return ContactPermission::canRead($user, $contact);
+        return $user->id === $contact->user_id;
     }
 
     /**
@@ -30,12 +25,7 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact)
     {
-        if($user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact))
-        {
-            return true;
-        }
-
-        return ContactPermission::canWrite($user, $contact);
+        return $user->id === $contact->user_id;
     }
 
     /**
@@ -45,16 +35,6 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact)
     {
-        return $user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact);
-    }
-
-    /**
-     * @param User $user
-     * @param Contact $contact
-     * @return bool
-     */
-    public function changePermission(User $user, Contact $contact)
-    {
-        return $user->id === $contact->user_id || ContactPermission::isAdmin($user, $contact);
+        return $user->id === $contact->user_id;
     }
 }

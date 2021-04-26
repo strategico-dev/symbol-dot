@@ -8,12 +8,12 @@ class SalesStageObserver
 {
     public function created(SalesStage $salesStage)
     {
-        $maxOrder = SalesStage::query()->where('sales_funnel_id', $salesStage->sales_funnel_id)->
-                                max('order');
+        $lastPosition = SalesStage::query()->where('sales_funnel_id', $salesStage->sales_funnel_id)->
+                                             max('position');
 
-        if($maxOrder !== null)
+        if($lastPosition !== null)
         {
-            $salesStage->order = $maxOrder + 1;
+            $salesStage->position = $lastPosition + 1;
             $salesStage->save();
         }
     }

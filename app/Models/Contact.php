@@ -31,11 +31,6 @@ class Contact extends CrmModel
         parent::__construct($attributes);
     }
 
-    public function contactPermissions()
-    {
-        return $this->hasMany(ContactPermission::class);
-    }
-
     protected static function boot()
     {
         parent::boot();

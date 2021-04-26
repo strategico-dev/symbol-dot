@@ -17,7 +17,7 @@ class CreateSalesStagesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('order')->default(0);
+            $table->integer('position')->default(0);
             $table->unsignedBigInteger('sales_funnel_id');
             $table->foreign('sales_funnel_id')->references('id')->on('sales_funnels');
             $table->softDeletes();

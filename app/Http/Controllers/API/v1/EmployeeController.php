@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Models\Company;
 use App\Models\Contact;
-use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Services\EmployeeService;
 use App\Http\Controllers\Controller;
 
 class EmployeeController extends Controller
@@ -14,7 +14,7 @@ class EmployeeController extends Controller
     public function index(Company $company, Request $request)
     {
         $this->authorize('show', $company);
-        return $company->employees()->with('contact')->fetch();
+        return EmployeeService::getByCompany($company);
     }
 
     #Route::get('/api/v1/companies/{company}/employees')
@@ -25,20 +25,12 @@ class EmployeeController extends Controller
         $contact = Contact::findOrFail($request->input('contact_id'));
         $this->authorize('update', $contact);
 
-        return Employee::add($company, $contact, $request->input());
+        return EmployeeService::create($company, $contact, $request->input());
     }
 
     #Route::delete('/api/v1/companies/{company}/employees/{employee}')
-    public function delete(Company $company, Employee $employee)
+    public function delete(Company $company, $employeeId)
     {
-        if($company->id !== $employee->company_id)
-        {
-            return response()->json([
-                'message' => 'Not Found'
-            ], 404);
-        }
-
-        $employee->delete();
-        return $company;
+        return EmployeeService::delete($company, $employeeId);
     }
 }

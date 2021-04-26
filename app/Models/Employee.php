@@ -18,14 +18,4 @@ class Employee extends CrmModel
     {
         return $this->belongsTo(Contact::class);
     }
-
-    public static function add(Company $company, Contact $contact, array $data)
-    {
-        return (new static)->newQuery()->create([
-            'company_id'    => $company->id,
-            'contact_id'    => $contact->id,
-            'name'          => $data['name'],
-            'description'   => $data['description'] ?? null
-        ]);
-    }
 }

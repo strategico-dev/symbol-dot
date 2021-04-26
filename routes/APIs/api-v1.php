@@ -42,7 +42,7 @@ Route::group(['prefix' => 'companies', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => '{company}/employees'], function () {
         Route::get('', 'EmployeeController@index');
         Route::post('', 'EmployeeController@store');
-        Route::delete('{employee}', 'EmployeeController@delete');
+        Route::delete('{employeeId}', 'EmployeeController@delete');
     });
 });
 
@@ -60,7 +60,7 @@ Route::group(['prefix' => 'sales-funnels'], function () {
         Route::get('', 'SalesStageController@index');
         Route::post('', 'SalesStageController@store');
         Route::put('swapper', 'SalesStageController@swap');
-        Route::delete('{salesStage}', 'SalesStageController@delete');
+        Route::delete('{salesStageId}', 'SalesStageController@delete');
     });
 
     Route::group(['prefix' => '{salesFunnel}/contacts/{contact}', 'middleware' => ['can:update,salesFunnel', 'can:update,contact']], function () {
