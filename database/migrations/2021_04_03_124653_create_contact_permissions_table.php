@@ -20,7 +20,7 @@ class CreateContactPermissionsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('contact_id');
             $table->foreign('contact_id')->references('id')->on('contacts');
-            $table->integer('mode')->default(ContactPermission::READ_MODE);
+            $table->enum('mode', ContactPermission::getModes());
             $table->timestamps();
         });
     }

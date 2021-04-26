@@ -19,8 +19,8 @@ class CreateSalesFunnelsTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('cover')->default('/uploads/sales-funnels/covers/default.png');
-            $table->string('background_image')->default('/uploads/sales-funnels/backgrounds/default.png');
+            $table->unsignedBigInteger('theme_id');
+            $table->foreign('theme_id')->references('id')->on('sales_funnel_themes');
             $table->softDeletes();
             $table->timestamps();
         });
