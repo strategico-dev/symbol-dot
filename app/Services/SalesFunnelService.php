@@ -27,7 +27,7 @@ class SalesFunnelService
      */
     public static function create(User $owner, array $data)
     {
-        return $owner->contacts()->save(new Contact($data));
+        return $owner->salesFunnels()->save(new SalesFunnel($data));
     }
 
     /**

@@ -14,20 +14,20 @@ class Controller extends BaseController
     use Tokenizer, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * @var User
+     * @var User|null
      */
-    private User $authorizedUser;
-
-    public function __construct()
-    {
-        $this->authorizedUser = User::find(auth()->id());
-    }
+    private ?User $authorizedUser = null;
 
     /**
      * @return User
      */
     public function getAuthorizedUser(): User
     {
+        if($this->authorizedUser === null)
+        {
+            $this->authorizedUser = User::find(auth()->id());
+        }
+
         return $this->authorizedUser;
     }
 }

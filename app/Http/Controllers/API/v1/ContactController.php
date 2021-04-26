@@ -29,7 +29,7 @@ class ContactController extends Controller
     #Route::get('/api/v1/orders/{contactId}')
     public function show($contactId)
     {
-        $contact = CompanyService::findById($contactId);
+        $contact = ContactService::findById($contactId);
         $this->authorize('show', $contact);
 
         return $contact;
