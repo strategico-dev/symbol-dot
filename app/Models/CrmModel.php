@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 /**
  * @method void fetch()
  */
-class Model extends BaseModel
+class CrmModel extends BaseModel
 {
     /**
      * @var int

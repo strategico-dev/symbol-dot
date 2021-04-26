@@ -3,7 +3,7 @@
 
 namespace App\Observers;
 
-use App\Models\Model;
+use App\Models\CrmModel;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
@@ -23,9 +23,9 @@ class ElasticObserver
     }
 
     /**
-     * @param Model $model
+     * @param CrmModel $model
      */
-    public function created(Model $model)
+    public function created(CrmModel $model)
     {
         $this->client->index([
             'index' => $model->getTable(),
@@ -36,9 +36,9 @@ class ElasticObserver
     }
 
     /**
-     * @param Model $model
+     * @param CrmModel $model
      */
-    public function deleted(Model $model)
+    public function deleted(CrmModel $model)
     {
         $this->client->delete([
             'index' => $model->getTable(),

@@ -64,7 +64,7 @@ Route::group(['prefix' => 'sales-funnels'], function () {
     });
 
     Route::group(['prefix' => '{salesFunnel}/contacts/{contact}', 'middleware' => ['can:update,salesFunnel', 'can:update,contact']], function () {
-        Route::post('', 'ContactFunnelController@add');
+        Route::post('', 'ContactFunnelController@store');
         Route::put('mover', 'ContactFunnelController@move');
         Route::delete('', 'ContactFunnelController@delete');
     });

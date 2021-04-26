@@ -5,7 +5,7 @@ namespace App\Models;
 /**
  * @property int $company_id
  */
-class Employee extends Model
+class Employee extends CrmModel
 {
     protected $fillable = [
         'company_id',

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CompanyDetail extends Model
+class CompanyDetail extends CrmModel
 {
     protected $fillable = [
         'ogrn',

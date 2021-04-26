@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Models\User;
 use App\Models\Contact;
-use Illuminate\Http\Request;
+use App\Services\CompanyService;
+use App\Services\ContactService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateContactRequest;
 use App\Http\Requests\UpdateContactRequest;
@@ -12,24 +12,24 @@ use App\Http\Requests\UpdateContactRequest;
 class ContactController extends Controller
 {
     #Route::get('/api/v1/contacts')
-    public function index(Request $request)
+    public function index()
     {
-        $user = User::find(auth()->id());
-        return $user->contacts()->fetch();
+        return ContactService::getWithPagination($this->getAuthorizedUser());
     }
 
     #Route::post('/api/v1/contacts')
     public function store(CreateContactRequest $request)
     {
-        $user = User::find(auth()->id());
-
-        return $user->contacts()->save(new Contact($request->input()));
+        return ContactService::create(
+            $this->getAuthorizedUser(),
+            $request->input()
+        );
     }
 
     #Route::get('/api/v1/orders/{contactId}')
     public function show($contactId)
     {
-        $contact = Contact::findOrFail($contactId);
+        $contact = CompanyService::findById($contactId);
         $this->authorize('show', $contact);
 
         return $contact;

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Models\User;
 use App\Models\Company;
-use App\Models\CompanyDetail;
-use Illuminate\Support\Facades\DB;
+use App\Services\CompanyService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
@@ -15,24 +13,23 @@ class CompanyController extends Controller
     #Route::get('/api/v1/companies')
     public function index()
     {
-        /* @var User $user */
-        $user = User::find(auth()->id());
-        return $user->companies()->with(['companyDetail', 'employees.contact'])->fetch();
+        return CompanyService::getWithPagination($this->getAuthorizedUser());
     }
 
     #Route::post('/api/v1/companies')
     public function store(CreateCompanyRequest $request)
     {
-        return Company::create(
+        return CompanyService::create(
+            $this->getAuthorizedUser(),
             $request->input(),
-            $request->input('detail')
+            $request->input('details')
         );
     }
 
     #Route::get('/api/v1/companies/{companyId}')
     public function show($companyId)
     {
-        $company = Company::with(['companyDetail', 'employees.contact'])->findOrFail($companyId);
+        $company = CompanyService::findById($companyId);
         $this->authorize('show', $company);
 
         return $company;
@@ -43,24 +40,11 @@ class CompanyController extends Controller
     {
         $this->authorize('update', $company);
 
-        $company->update($request->only(['name', 'description']));
-        if($request->exists('detail'))
-        {
-            if(!$company->companyDetail)
-            {
-                DB::transaction(function () use ($company) {
-                    $companyDetail = CompanyDetail::create($request->input('detail'));
-                    $company->companyDetail()->associate($companyDetail);
-                    $company->save();
-                });
-            }
-            else
-            {
-                $company->companyDetail()->update($request->input('detail'));
-            }
-        }
-
-        return $company;
+        return CompanyService::update(
+            $company,
+            $request->input(),
+            $request->input('details')
+        );
     }
 
     #Route::delete('/api/v1/companies/{company}')

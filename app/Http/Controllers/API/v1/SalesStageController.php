@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Models\SalesStage;
 use App\Models\SalesFunnel;
+use App\Services\SalesStageService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateSalesStageRequest;
@@ -15,10 +16,7 @@ class SalesStageController extends Controller
     {
         $this->authorize('show', $salesFunnel);
 
-        return $salesFunnel->salesStages()->
-                             with('contacts')->
-                             orderBy('order', 'ASC')->
-                             get();
+        return SalesStageService::getWithPagination($salesFunnel);
     }
 
     #Route::post('/api/v1/sales-funnels/{sales-funnel}/sales-stages')
@@ -26,7 +24,7 @@ class SalesStageController extends Controller
     {
         $this->authorize('update', $salesFunnel);
 
-        return $salesFunnel->salesStages()->save(new SalesStage($request->input()));
+        return SalesStageService::create($salesFunnel, $request->input());
     }
 
     #Route::post('/api/v1/sales-funnels/{sales-funnel}/sales-stages/swapper')

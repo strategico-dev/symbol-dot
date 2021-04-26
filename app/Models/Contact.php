@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property int $user_id
  */
-class Contact extends Model
+class Contact extends CrmModel
 {
     use SoftDeletes, ElasticSearchable;
 

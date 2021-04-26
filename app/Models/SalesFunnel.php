@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property int $user_id
  */
-class SalesFunnel extends Model
+class SalesFunnel extends CrmModel
 {
     use SoftDeletes;
 

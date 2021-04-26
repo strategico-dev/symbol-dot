@@ -5,7 +5,7 @@ namespace App\Models;
 /**
  * @property int $mode
  */
-class ContactPermission extends Model
+class ContactPermission extends CrmModel
 {
     const READ_MODE = 0;
     const WRITE_MODE = 1;

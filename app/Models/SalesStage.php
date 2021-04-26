@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
  * @property int $order
  * @property int $sales_funnel_id
  */
-class SalesStage extends Model
+class SalesStage extends CrmModel
 {
     use SoftDeletes;
 
@@ -58,21 +58,6 @@ class SalesStage extends Model
 
             self::swapOrder($place, $target);
         }
-    }
-
-    /**
-     * Move a contact to a new sales stage
-     *
-     * @param SalesStage $current
-     * @param SalesStage $target
-     * @param Contact $contact
-     */
-    public static function moveTo(SalesStage $current, SalesStage $target, Contact $contact)
-    {
-        DB::transaction(function () use ($current, $target, $contact) {
-            $current->contacts()->detach($contact);
-            $target->contacts()->attach($contact);
-        });
     }
 
     protected static function boot()

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $user_id
  * @property mixed $companyDetail
  */
-class Company extends Model
+class Company extends CrmModel
 {
     use SoftDeletes, ElasticSearchable;
 
@@ -31,24 +31,6 @@ class Company extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
-    }
-
-    public static function create($companyAttributes, $detailAttributes = null)
-    {
-        $companyAttributes['user_id'] = auth()->id();
-        return DB::transaction(function () use ($companyAttributes, $detailAttributes) {
-            $createdCompany = (new static)->newQuery()->create($companyAttributes);
-
-            if($detailAttributes)
-            {
-                $companyDetail = CompanyDetail::create($detailAttributes);
-
-                $createdCompany->companyDetail()->associate($companyDetail);
-                $createdCompany->save();
-            }
-
-            return $createdCompany;
-        });
     }
 
     protected static function boot()
